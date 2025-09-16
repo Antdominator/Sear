@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sear Club</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Full-screen particle background -->
+  <div id="particles-js"></div>
+
+  <!-- Optional FPS/particle counter -->
+  <div class="count-particles">
+    <span class="js-count-particles">--</span> particles
+  </div>
+
+  <!-- Your site header/content on TOP of particles -->
+  <header class="header">
+    <div class="inner_header">
+        <a href="/" class="logo_container">
+            <img src="SEAR_LOGO.jpg" alt="Site Logo">
+        </a>
+      <nav>
+        <ul class="nav">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Members</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Load libs (use HTTPS to avoid mixed-content issues) -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+  <!-- Your init -->
+  <script src="app.js"></script>
+</body>
+</html>
