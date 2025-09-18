@@ -81,59 +81,46 @@ update = function () {
   stats.begin();
   stats.end();
 
-  if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-    count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+  const arr = window.pJSDom?.[0]?.pJS?.particles?.array;
+  if (arr) {
+    count_particles.innerText = arr.length;
   }
   requestAnimationFrame(update);
 };
-requestAnimationFrame(update);
 
-/* =========================
-   Mobile Drawer Menu
-   ========================= */
+
+/* Mobile Drawer: logo toggles on mobile, navigates on desktop */
 (function () {
   const logo = document.getElementById("logoToggle");
   const drawer = document.getElementById("mobile-drawer");
   const backdrop = document.getElementById("drawer-backdrop");
-  const mq = window.matchMedia("(max-width: 768px)");
-
   if (!logo || !drawer || !backdrop) return;
 
-  function isMobile() { return mq.matches; }
+  const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
-  function openDrawer() {
+  const openDrawer = () => {
     drawer.classList.add("open");
     backdrop.classList.add("show");
     drawer.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-  }
-
-  function closeDrawer() {
+  };
+  const closeDrawer = () => {
     drawer.classList.remove("open");
     backdrop.classList.remove("show");
     drawer.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
-  }
+  };
 
-  function handleActivate(e) {
+  logo.addEventListener("click", (e) => {
     if (isMobile()) {
-      // stop navigation on mobile and toggle drawer instead
       e.preventDefault();
       e.stopPropagation();
       drawer.classList.contains("open") ? closeDrawer() : openDrawer();
     }
-    // on desktop, do nothing — the <a href="./"> will navigate normally
-  }
-
-  logo.addEventListener("touchstart", handleActivate, { passive: false });
-  logo.addEventListener("click", handleActivate);
+    // desktop: let the anchor navigate to "./"
+  });
 
   backdrop.addEventListener("click", closeDrawer);
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeDrawer();
-  });
-
-  mq.addEventListener("change", () => {
-    if (!isMobile()) closeDrawer();
-  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
+  window.matchMedia("(max-width: 768px)").addEventListener("change", () => { if (!isMobile()) closeDrawer(); });
 })();
