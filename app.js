@@ -97,15 +97,15 @@ requestAnimationFrame(update);
   const backdrop = document.getElementById("drawer-backdrop");
   const mq = window.matchMedia("(max-width: 768px)");
 
-  function isMobile() {
-    return mq.matches;
-  }
+  if (!logo || !drawer || !backdrop) return;
+
+  function isMobile() { return mq.matches; }
 
   function openDrawer() {
     drawer.classList.add("open");
     backdrop.classList.add("show");
     drawer.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden"; // prevent background scroll
+    document.body.style.overflow = "hidden";
   }
 
   function closeDrawer() {
@@ -115,25 +115,24 @@ requestAnimationFrame(update);
     document.body.style.overflow = "";
   }
 
-  // Toggle when clicking the logo (mobile = menu, desktop = go home)
-  logo.addEventListener("click", (e) => {
+  function handleActivate(e) {
     if (isMobile()) {
-      e.preventDefault(); // don’t navigate home on mobile
-      if (drawer.classList.contains("open")) {
-        closeDrawer();
-      } else {
-        openDrawer();
-      }
+      // stop navigation on mobile and toggle drawer instead
+      e.preventDefault();
+      e.stopPropagation();
+      drawer.classList.contains("open") ? closeDrawer() : openDrawer();
     }
-  });
+    // on desktop, do nothing — the <a href="./"> will navigate normally
+  }
 
-  // Close when tapping backdrop or pressing ESC
+  logo.addEventListener("touchstart", handleActivate, { passive: false });
+  logo.addEventListener("click", handleActivate);
+
   backdrop.addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeDrawer();
   });
 
-  // If we resize back to desktop while open, close it
   mq.addEventListener("change", () => {
     if (!isMobile()) closeDrawer();
   });
