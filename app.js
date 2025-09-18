@@ -1,3 +1,6 @@
+/* =========================
+   ParticlesJS Config
+   ========================= */
 particlesJS("particles-js", {
   particles: {
     number: { value: 160, density: { enable: true, value_area: 800 } },
@@ -45,7 +48,13 @@ particlesJS("particles-js", {
     },
     modes: {
       grab: { distance: 400, line_linked: { opacity: 1 } },
-      bubble: { distance: 150, size: 0, duration: 0.6, opacity: 0, speed: 3 },
+      bubble: {
+        distance: 150,
+        size: 0,
+        duration: 0.6,
+        opacity: 0,
+        speed: 3
+      },
       repulse: { distance: 400, duration: 0.4 },
       push: { particles_nb: 4 },
       remove: { particles_nb: 2 }
@@ -53,20 +62,79 @@ particlesJS("particles-js", {
   },
   retina_detect: true
 });
+
+/* =========================
+   Stats Counter
+   ========================= */
 var count_particles, stats, update;
+
 stats = new Stats();
 stats.setMode(0);
 stats.domElement.style.position = "absolute";
 stats.domElement.style.left = "0px";
 stats.domElement.style.top = "0px";
 document.body.appendChild(stats.domElement);
+
 count_particles = document.querySelector(".js-count-particles");
+
 update = function () {
   stats.begin();
   stats.end();
+
   if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
     count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
   }
   requestAnimationFrame(update);
 };
 requestAnimationFrame(update);
+
+/* =========================
+   Mobile Drawer Menu
+   ========================= */
+(function () {
+  const logo = document.getElementById("logoToggle");
+  const drawer = document.getElementById("mobile-drawer");
+  const backdrop = document.getElementById("drawer-backdrop");
+  const mq = window.matchMedia("(max-width: 768px)");
+
+  function isMobile() {
+    return mq.matches;
+  }
+
+  function openDrawer() {
+    drawer.classList.add("open");
+    backdrop.classList.add("show");
+    drawer.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden"; // prevent background scroll
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove("open");
+    backdrop.classList.remove("show");
+    drawer.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  // Toggle when clicking the logo (mobile = menu, desktop = go home)
+  logo.addEventListener("click", (e) => {
+    if (isMobile()) {
+      e.preventDefault(); // don’t navigate home on mobile
+      if (drawer.classList.contains("open")) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    }
+  });
+
+  // Close when tapping backdrop or pressing ESC
+  backdrop.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDrawer();
+  });
+
+  // If we resize back to desktop while open, close it
+  mq.addEventListener("change", () => {
+    if (!isMobile()) closeDrawer();
+  });
+})();

@@ -1,8 +1,17 @@
-/* Reset/minimal base */
+/* =========================
+   Base / Reset
+   ========================= */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
-body { margin: 0; font: normal 75% Arial, Helvetica, sans-serif; background:#0c0c0c; }
+body {
+  margin: 0;
+  font: normal 75% Arial, Helvetica, sans-serif;
+  background: #0c0c0c;
+}
 
+/* =========================
+   Particles Background
+   ========================= */
 #particles-js {
   position: fixed;
   inset: 0;
@@ -12,19 +21,18 @@ body { margin: 0; font: normal 75% Arial, Helvetica, sans-serif; background:#0c0
   background: radial-gradient(1200px 700px at 70% 20%, #151c2f 0%, #0b1020 55%, #070a12 100%);
 }
 
-
 /* Optional stats counter */
-.count-particles {
-    display: none;
-}
+.count-particles { display: none; }
 
-/* Header on top of particles */
+/* =========================
+   Header
+   ========================= */
 .header {
   position: relative;
-  z-index: 10;                     /* above particles */
+  z-index: 10;                 /* above particles */
   height: 80px;
-  background: rgba(16,16,16,0.65);/* see-through like the demo */
-  backdrop-filter: blur(2px);     /* optional glassy vibe */
+  background: rgba(16,16,16,0.65);
+  backdrop-filter: blur(2px);
 }
 
 /* Header layout */
@@ -34,27 +42,32 @@ body { margin: 0; font: normal 75% Arial, Helvetica, sans-serif; background:#0c0
   margin: 0 auto;
   padding: 0 16px;
   display: flex;
-  align-items: center;            /* vertical center */
+  align-items: center;          /* vertical center */
   justify-content: space-between; /* logo left, nav right */
 }
 
 .logo_container img {
-    height: 80px;
-    width: auto;
-    display: block;
-    padding-left: 0px;
+  height: 80px;
+  width: auto;
+  display: block;
+  padding-left: 0;
 }
 
-/* Nav row */
+/* =========================
+   Desktop Nav
+   ========================= */
+.desktop-nav { display: block; }
+
 .nav {
   display: flex;
-  flex-direction: row;   /* <- this makes it horizontal */
-  align-items: center;   /* <- vertical centering */
-  gap: 24px;             /* spacing between items */
+  flex-direction: row;          /* horizontal */
+  align-items: center;          /* vertical centering */
+  gap: 24px;                    /* spacing between items */
   list-style: none;
   margin: 0;
   padding: 0;
 }
+
 .nav a {
   color: #fff;
   text-decoration: none;
@@ -63,23 +76,97 @@ body { margin: 0; font: normal 75% Arial, Helvetica, sans-serif; background:#0c0
   padding: 8px 0;
 }
 
-.instagram-logo {
-  width: 22px;
-  height: 22px;
-  color: #fff;               /* uses fill="currentColor" */
-  transition: transform .2s ease, opacity .2s ease;
-  opacity: 0.9;
-}
-
-.discord-logo {
-  width: 22px;
-  height: 22px;
-  color: #fff;                 /* white to match header */
-  opacity: 0.9;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
 .nav a:hover { opacity: .85; }
 
-/* Canvas element styles from demo */
+/* =========================
+   Icon Buttons (SVG)
+   ========================= */
+.instagram-logo,
+.discord-logo {
+  width: 22px;                  /* keep icons consistent */
+  height: 22px;
+  color: #fff;                  /* uses fill="currentColor" in SVG */
+  opacity: 0.9;
+  vertical-align: middle;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+
+.nav a:hover .instagram-logo,
+.nav a:hover .discord-logo{
+  transform: scale(1.15);
+  opacity: 1;
+}
+
+
+/* =========================
+   Mobile Drawer
+   ========================= */
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: 78%;
+  max-width: 320px;
+  background: rgba(10, 12, 22, 0.92);
+  backdrop-filter: blur(6px);
+  box-shadow: 2px 0 18px rgba(0,0,0,0.4);
+  transform: translateX(-100%);
+  transition: transform .28s ease;
+  z-index: 20;                  /* above header (z:10) & particles */
+  padding: 84px 18px 24px;      /* leave room for header */
+}
+
+.drawer.open { transform: translateX(0); }
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+  z-index: 15;
+}
+
+.drawer-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Drawer nav styling */
+.drawer-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.drawer-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 10px 4px;
+}
+
+.drawer-nav a:hover { opacity: .85; }
+
+/* =========================
+   Responsive (Mobile)
+   ========================= */
+@media (max-width: 768px) {
+  /* Hide the desktop nav; logo becomes the toggle */
+  .desktop-nav { display: none; }
+
+  /* Keep header layout stable */
+  .inner_header { justify-content: flex-start; } /* logo at left */
+  .logo_container { padding-right: 8px; }
+  .logo_container img { height: 64px; }         /* slightly smaller on phones */
+}
+
+/* =========================
+   Canvas Element
+   ========================= */
 canvas { display: block; vertical-align: bottom; }
