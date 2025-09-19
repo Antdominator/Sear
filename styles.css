@@ -9,6 +9,7 @@ body {
   background: #0c0c0c;
 }
 
+
 /* =========================
    Particles Background
    ========================= */
@@ -100,87 +101,47 @@ body {
 
 
 /* =========================
-   Mobile Drawer
-   ========================= */
-.drawer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100dvh;
-  width: 78%;
-  max-width: 320px;
-  background: rgba(10, 12, 22, 0.92);
-  backdrop-filter: blur(6px);
-  box-shadow: 2px 0 18px rgba(0,0,0,0.4);
-  transform: translateX(-100%);
-  transition: transform .28s ease;
-  z-index: 20;                  /* above header (z:10) & particles */
-  padding: 84px 18px 24px;      /* leave room for header */
-}
-
-.drawer.open { transform: translateX(0); }
-
-.drawer-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .25s ease, visibility .25s ease;
-  z-index: 15;
-}
-
-.drawer-backdrop.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Drawer nav styling */
-.drawer-nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 14px;
-}
-
-.drawer-nav a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 18px;
-  padding: 10px 4px;
-}
-
-.drawer-nav a:hover { opacity: .85; }
-
-/* Screen-reader-only text */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-
-/* =========================
-   Responsive (Mobile)
-   ========================= */
-@media (max-width: 768px) {
-  /* Hide the desktop nav; logo becomes the toggle */
-  .desktop-nav { display: none; }
-
-  /* Keep header layout stable */
-  .inner_header { justify-content: flex-start; } /* logo at left */
-  .logo_container { padding-right: 8px; }
-  .logo_container img { height: 64px; }         /* slightly smaller on phones */
-}
-
-/* =========================
    Canvas Element
    ========================= */
 canvas { display: block; vertical-align: bottom; }
+
+/* ========== HERO ========== */
+.hero {
+  position: relative;
+  z-index: 9;
+  min-height: calc(100vh - var(--header-h)); /* full viewport minus header */
+  display: flex;             /* use flexbox instead of grid here */
+  align-items: center;       /* vertical center */
+  justify-content: center;   /* horizontal center */
+  text-align: center;
+  padding-top: 100px;            /* remove the extra padding */
+  box-sizing: border-box;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(36px, 8vw + 8px, 110px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  /* sunrise flame gradient text */
+  background: whitesmoke;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .25s ease, transform .25s ease; /* fallback */
+}
+
+/* CSS-only scroll fade (modern browsers). Fallback just scrolls away */
+@supports (animation-timeline: scroll()) {
+  .hero-title {
+    animation: fadeUp linear both;
+    animation-timeline: scroll(root);
+    /* Title fades & rises during the first 60vh of scroll */
+    animation-range: 0 60vh;
+  }
+  @keyframes fadeUp {
+    to { opacity: 0; transform: translateY(-40px); }
+  }
+}

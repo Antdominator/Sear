@@ -88,39 +88,3 @@ update = function () {
   requestAnimationFrame(update);
 };
 
-
-/* Mobile Drawer: logo toggles on mobile, navigates on desktop */
-(function () {
-  const logo = document.getElementById("logoToggle");
-  const drawer = document.getElementById("mobile-drawer");
-  const backdrop = document.getElementById("drawer-backdrop");
-  if (!logo || !drawer || !backdrop) return;
-
-  const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
-
-  const openDrawer = () => {
-    drawer.classList.add("open");
-    backdrop.classList.add("show");
-    drawer.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-  };
-  const closeDrawer = () => {
-    drawer.classList.remove("open");
-    backdrop.classList.remove("show");
-    drawer.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-  };
-
-  logo.addEventListener("click", (e) => {
-    if (isMobile()) {
-      e.preventDefault();
-      e.stopPropagation();
-      drawer.classList.contains("open") ? closeDrawer() : openDrawer();
-    }
-    // desktop: let the anchor navigate to "./"
-  });
-
-  backdrop.addEventListener("click", closeDrawer);
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
-  window.matchMedia("(max-width: 768px)").addEventListener("change", () => { if (!isMobile()) closeDrawer(); });
-})();
